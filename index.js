@@ -4,7 +4,7 @@ const mysql = require('mysql');
 const nodemailer = require('nodemailer');
 var cors = require('cors');
 const Server = "https://mailtracker10.herokuapp.com";
-//const Server = "http://localhost:5000";
+// const Server = "http://localhost:5000";
 
 const app = express();
 
@@ -42,16 +42,16 @@ app.get('/', (req, res) => {
 });
 
 app.route('/recipients/:recipient').get((req, res) => {
-  const Recipient = req.params['recipient'];
-  var datetime = "LastSync: " + new Date().today() + " @ " + new Date().timeNow();
-  conn.query('UPDATE recipients SET opened = true, lastseen= ? WHERE email=?', [datetime,Recipient],
+  var Recipient = req.params['recipient'];
+  var date_ob = new Date().toISOString().slice(0, 19).replace('T', ' ');
+  conn.query('UPDATE recipients SET opened = true, lastseen= ? WHERE email=?', [date_ob,Recipient],
   (err, rows) => {
     if (err) {
-      throw err,
-      console.log("failed");
-    };
-    console.log('Data Inserted:');
-    res.send('data inserted')
+      console.log(err);
+    }else{
+      console.log('Data Inserted:');
+      res.send('data inserted')
+    }
   });
 })
 
