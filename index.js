@@ -27,7 +27,7 @@ var transporter = nodemailer.createTransport({
 });
 
 app.listen(process.env.PORT || 5000, () => {
-    console.log("Server is listening on port "+PORT);
+    console.log("Server is listening on port ");
 });
 
 app.get('/', (req, res) => {
