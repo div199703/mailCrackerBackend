@@ -2,7 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const nodemailer = require('nodemailer');
-var cors = require('cors')
+var cors = require('cors');
+const Server = "https://mailtracker10.herokuapp.com";
+//const Server = "http://localhost:5000";
 
 const app = express();
 
@@ -16,6 +18,11 @@ var conn = mysql.createConnection({
     user: "sql9385123",
     password: "sYgy78DbJc",
     database: "sql9385123"
+
+    // host: "localhost",
+    // user: "root",
+    // password: "",
+    // database: "mailtracker"
 });
 
 var transporter = nodemailer.createTransport({
@@ -37,7 +44,7 @@ app.get('/', (req, res) => {
 app.route('/recipients/:recipient').get((req, res) => {
   const Recipient = req.params['recipient'];
   var datetime = "LastSync: " + new Date().today() + " @ " + new Date().timeNow();
-  connection.query('UPDATE recipients SET opened = true, lastseen= ? WHERE email=?', [datetime,Recipient],
+  conn.query('UPDATE recipients SET opened = true, lastseen= ? WHERE email=?', [datetime,Recipient],
   (err, rows) => {
     if (err) {
       throw err,
@@ -54,7 +61,7 @@ app.route('/sendmail').post((req, res) => {
     let MessageBody = req.body['MessageBody'];
     let Subject = req.body['Subject'];
 
-    let htmlBody = '<p>'+MessageBody+'</p>'+'<img src = "https://mailtracker10.herokuapp.com/recipients/'+Recipient+' hidden>';
+    let htmlBody = '<p>'+MessageBody+'</p>'+'<img src = "'+Server+'/recipients/'+Recipient+'" hidden>';
 
     var mailOptions = {
         from: Sender,
@@ -66,16 +73,14 @@ app.route('/sendmail').post((req, res) => {
         if (error) {
           console.log(error);
         } else {
-          console.log('Email sent: ' + info.response);
-          res.send({"message": "success"});
-          connection.query('INSERT INTO recipients(email) VALUES(?)', [Recipient],
+          conn.query('INSERT INTO recipients(email) VALUES(?)', [Recipient],
           (err, rows) => {
             if (err) {
               throw err,
-              console.log("failed");
-            };
-            console.log('Data Inserted:');
-            res.send('data inserted')
+              console.log(err);
+            }else{
+              res.send({"message": "success"});
+            }
           });
         }
       });
