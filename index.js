@@ -12,10 +12,10 @@ app.use(bodyParser.json())
 app.use(cors()) // Use this after the variable declaration
 
 var conn = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "mailtracker"
+    host: "sql9.freemysqlhosting.net",
+    user: "sql9385123",
+    password: "sYgy78DbJc",
+    database: "sql9385123"
 });
 
 var transporter = nodemailer.createTransport({
