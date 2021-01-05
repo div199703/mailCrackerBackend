@@ -34,12 +34,18 @@ app.get('/', (req, res) => {
     res.json({"message": "Hi this is mail tracker node server"});
 });
 
-app.route('/recipients').get((req, res) => {
-    conn.query('SELECT * FROM recipients', (err, rows) => {
-      if (err) throw err;
-      console.log(req.url+":"+res.statusCode);
-      res.send(rows)
-    });
+app.route('/recipients/:recipient').get((req, res) => {
+  const Recipient = req.params['recipient'];
+  var datetime = "LastSync: " + new Date().today() + " @ " + new Date().timeNow();
+  connection.query('UPDATE recipients SET opened = true, lastseen= ? WHERE email=?', [datetime,Recipient],
+  (err, rows) => {
+    if (err) {
+      throw err,
+      console.log("failed");
+    };
+    console.log('Data Inserted:');
+    res.send('data inserted')
+  });
 })
 
 app.route('/sendmail').post((req, res) => {
@@ -48,7 +54,7 @@ app.route('/sendmail').post((req, res) => {
     let MessageBody = req.body['MessageBody'];
     let Subject = req.body['Subject'];
 
-    let htmlBody = '<p>'+MessageBody+'</p>'+'<img src = "http://localhost:3000/recipients" hidden>'
+    let htmlBody = '<p>'+MessageBody+'</p>'+'<img src = "https://mailtracker10.herokuapp.com/recipients/'+Recipient+' hidden>';
 
     var mailOptions = {
         from: Sender,
@@ -62,15 +68,15 @@ app.route('/sendmail').post((req, res) => {
         } else {
           console.log('Email sent: ' + info.response);
           res.send({"message": "success"});
+          connection.query('INSERT INTO recipients(email) VALUES(?)', [Recipient],
+          (err, rows) => {
+            if (err) {
+              throw err,
+              console.log("failed");
+            };
+            console.log('Data Inserted:');
+            res.send('data inserted')
+          });
         }
       });
-    // connection.query('INSERT INTO shops (shop_name,shop_value,shop_details,shop_website) VALUES(?,?,?,?)', [shopName, shopValue, shopDetails, shopWebsite],
-    //   (err, rows) => {
-    //     if (err) {
-    //       throw err,
-    //       console.log("failed");
-    //     };
-    //     console.log('Data Inserted:');
-    //     res.send('data inserted')
-    //   });
   })
