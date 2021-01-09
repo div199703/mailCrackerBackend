@@ -4,38 +4,32 @@ const mysql = require('mysql');
 const nodemailer = require('nodemailer');
 const keys = require('./keys');
 var cors = require('cors');
-// const Server = "https://mailtracker10.herokuapp.com";
-const Server = "http://localhost:5000";
 
+const Server = keys.OWN_SERVER;
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use(bodyParser.json())
-app.use(cors()) // Use this after the variable declaration
+app.use(cors())
 
 var conn = mysql.createConnection({
-    // host: "sql9.freemysqlhosting.net",
-    // user: "sql9385123",
-    // password: "sYgy78DbJc",
-    // database: "sql9385123"
-
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "mailtracker"
+    host: keys.DB_HOST,
+    user: keys.DB_USER,
+    password: keys.DB_PASSWORD,
+    database: keys.DB_DATABASE
 });
 
 var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'sendercracker@gmail.com',
-      pass: 'Sool@670qw'
+      user: keys.CONFIG_EMAIL,
+      pass: keys.CONFIG_EMAIL_PASS
     }
 });
 
 app.listen(process.env.PORT || 5000, () => {
-    console.log("Server is listening on port "+keys.DB_HOST);
+    console.log("Server is listening...url: "+Server);
 });
 
 app.get('/', (req, res) => {
