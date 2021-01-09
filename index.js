@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const nodemailer = require('nodemailer');
-const keys = require('./keys');
+const keys = require('./environment/keys');
 var cors = require('cors');
 
 const Server = keys.OWN_SERVER;
