@@ -3,8 +3,8 @@ const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const nodemailer = require('nodemailer');
 var cors = require('cors');
-const Server = "https://mailtracker10.herokuapp.com";
-// const Server = "http://localhost:5000";
+// const Server = "https://mailtracker10.herokuapp.com";
+const Server = "http://localhost:5000";
 
 const app = express();
 
@@ -14,15 +14,15 @@ app.use(bodyParser.json())
 app.use(cors()) // Use this after the variable declaration
 
 var conn = mysql.createConnection({
-    host: "sql9.freemysqlhosting.net",
-    user: "sql9385123",
-    password: "sYgy78DbJc",
-    database: "sql9385123"
+    // host: "sql9.freemysqlhosting.net",
+    // user: "sql9385123",
+    // password: "sYgy78DbJc",
+    // database: "sql9385123"
 
-    // host: "localhost",
-    // user: "root",
-    // password: "",
-    // database: "mailtracker"
+    host: "localhost",
+    user: "root",
+    password: "",
+    database: "mailtracker"
 });
 
 var transporter = nodemailer.createTransport({
