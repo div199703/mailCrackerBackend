@@ -1,2 +1,3 @@
 node_modules/
 /environment/keys.dev.js
+/environment/keys.js
