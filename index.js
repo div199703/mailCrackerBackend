@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const nodemailer = require('nodemailer');
+const keys = require('./keys');
 var cors = require('cors');
 // const Server = "https://mailtracker10.herokuapp.com";
 const Server = "http://localhost:5000";
@@ -34,7 +35,7 @@ var transporter = nodemailer.createTransport({
 });
 
 app.listen(process.env.PORT || 5000, () => {
-    console.log("Server is listening on port ");
+    console.log("Server is listening on port "+keys.DB_HOST);
 });
 
 app.get('/', (req, res) => {
