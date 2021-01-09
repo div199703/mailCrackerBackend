@@ -33,7 +33,10 @@ app.listen(process.env.PORT || 5000, () => {
 });
 
 app.get('/', (req, res) => {
-    res.json({"message": "Hi this is mail tracker node server"});
+    res.json({
+      "message": "Hi this is mail tracker node server",
+      "url": Server
+  });
 });
 
 app.route('/recipients/:recipient').get((req, res) => {
