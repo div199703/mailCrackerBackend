@@ -5,6 +5,6 @@ module.exports = {
     DB_USER: "sql9385123",
     DB_PASSWORD : "sYgy78DbJc",
     DB_DATABASE : "sql9385123",
-    CONFIG_EMAIL : "sendercracker@gmail.com",
-    CONFIG_EMAIL_PASS : "Sool@670qw"
+    CONFIG_EMAIL : "*****r@gmail.com",
+    CONFIG_EMAIL_PASS : "*****"
 };
